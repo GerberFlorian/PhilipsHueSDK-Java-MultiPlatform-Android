@@ -32,6 +32,7 @@ public class DesktopView extends JFrame {
     private JButton setLightsButton;
     private JButton randomLightsButton;
     private JButton findBridgesButton;
+    private JButton changingLightsButton;
     private JButton connectToLastBridgeButton;
     private JProgressBar findingBridgeProgressBar;
     
@@ -110,10 +111,22 @@ public class DesktopView extends JFrame {
             }
         });
         
+        
+        changingLightsButton = new JButton("Changing Lights");
+        changingLightsButton.setEnabled(false);
+        changingLightsButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+					controller.changingLights();	
+        	
+			}
+		});
+        
         double border = 10;
         double size[][] =
             {{border, 160, 20, 300, 20, 160},                 // Columns
-             {border, 26,  10, 26, 26, 26,6,26}}; // Rows
+             {border, 26,  10, 26, 26, 26,6,26,6,26}}; // Rows
 
         mainPanel.setLayout (new TableLayout(size));
 
@@ -131,6 +144,7 @@ public class DesktopView extends JFrame {
         
         mainPanel.add(randomLightsButton,        " 5, 5");
         mainPanel.add(setLightsButton,           " 5, 7");
+        mainPanel.add(changingLightsButton,"5, 9");
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(700,270));
@@ -157,6 +171,10 @@ public class DesktopView extends JFrame {
     public JButton getRandomLightsButton() {
         return randomLightsButton;
     } 
+    
+    public JButton getChangingLightsButton() {
+    	return changingLightsButton;
+    }
     
     public JButton getFindBridgesButton() {
         return findBridgesButton;

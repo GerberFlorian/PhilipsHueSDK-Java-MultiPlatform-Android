@@ -29,6 +29,8 @@ public class Controller {
     
     private PushLinkFrame pushLinkDialog;
     private LightColoursFrame lightColoursFrame;
+	private LightChanger lightChanger;
+	private Thread t;
     
     private static final int MAX_HUE=65535;
     private Controller instance;
@@ -88,6 +90,7 @@ public class Controller {
             // Enable the Buttons/Controls to change the hue bulbs.s
             desktopView.getRandomLightsButton().setEnabled(true);
             desktopView.getSetLightsButton().setEnabled(true);
+            desktopView.getChangingLightsButton().setEnabled(true);
 
         }
 
@@ -149,6 +152,7 @@ public class Controller {
     }
 
     public void randomLights() {
+    	closeThreads();
         PHBridge bridge = phHueSDK.getSelectedBridge();
         PHBridgeResourcesCache cache = bridge.getResourceCache();
 
@@ -162,7 +166,13 @@ public class Controller {
         }
     }
 
-    public void showControlLightsWindow() {
+    private void closeThreads() {
+		t.stop();
+		
+	}
+
+	public void showControlLightsWindow() {
+		closeThreads();
         if (lightColoursFrame == null) {
             lightColoursFrame = new LightColoursFrame(); 
         }
@@ -197,4 +207,10 @@ public class Controller {
     public void showProgressBar() {
         desktopView.getFindingBridgeProgressBar().setVisible(true);
     }
+
+	public void changingLights() {
+		this.lightChanger = new LightChanger();
+		t = new Thread(lightChanger);
+		t.start();
+	}
 }
